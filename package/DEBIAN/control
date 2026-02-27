@@ -1,0 +1,6 @@
+Package: pi-clock
+Version: 0.1.0
+Architecture: all
+Maintainer: Rob Earhart
+Description: E-paper clock for Raspberry Pi Zero 2 W
+Depends: python3, python3-pil, python3-spidev, python3-gpiozero, python3-lgpio, python3-systemd, fonts-dejavu-core, fonts-noto-cjk

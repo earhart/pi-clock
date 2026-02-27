@@ -1,0 +1,11 @@
+[Unit]
+Description=E-paper Clock
+After=multi-user.target
+
+[Service]
+ExecStart=/usr/lib/pi-clock/clock.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

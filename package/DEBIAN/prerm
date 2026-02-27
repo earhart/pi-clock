@@ -1,0 +1,4 @@
+#!/bin/sh
+set -e
+systemctl stop pi-clock || true
+systemctl disable pi-clock || true
