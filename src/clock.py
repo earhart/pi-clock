@@ -29,10 +29,11 @@ class Renderer:
         self.font_date = ImageFont.truetype(FONT_PATH, 60)
         self.font_date_jp = ImageFont.truetype(FONT_PATH_JP, 55)
 
-    def render(self, dt: datetime) -> Image:
+    def render(self, dt: datetime, is_grayscale: bool) -> Image:
         img = Image.new("L", (self.width, self.height), 0xFF)  # white, grayscale
         draw = ImageDraw.Draw(img)
-        draw.fontmode = "1"  # Disable anti-aliasing
+        if not is_grayscale:
+            draw.fontmode = "1"  # Disable anti-aliasing
         locale.setlocale(locale.LC_ALL, "C")
         time_str = dt.strftime("%-I:%M")
         date_str = dt.strftime("%A, %B %-d")
@@ -41,6 +42,7 @@ class Renderer:
         locale.setlocale(locale.LC_ALL, "C")
         cx = self.width // 2
         cy = self.height // 2
+
         # Center time in upper portion of display
         draw.text((cx, cy - 80), time_str, font=self.font_time, fill=0, anchor="mm")
         # Center English date
@@ -74,11 +76,11 @@ def main():
         logger.info("Entering timekeeping loop")
         while True:
             # Power up the hardware and update the display
-            epd.init()
+            epd.init_4GRAY()
             now = datetime.now()
-            img = renderer.render(now)
-            buf = epd.getbuffer(img)
-            epd.display(buf)
+            img = renderer.render(now, is_grayscale=True)
+            buf = epd.getbuffer_4Gray(img)
+            epd.display_4Gray(buf)
 
             # Sleep until the next minute boundary--according to the
             # manual, the e-paper can be damaged by leaving it in a
